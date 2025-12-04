@@ -4,7 +4,6 @@ import { scheduleNotifications } from '../../utils/notificationScheduler';
 
 export default function RootLayout() {
   useEffect(() => {
-    // Schedule notifications whenever the app is opened
     scheduleNotifications();
   }, []);
 

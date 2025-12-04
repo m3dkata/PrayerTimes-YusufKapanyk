@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import { scheduleNotifications } from '../../utils/notificationScheduler';
+import SideMenu from '../../components/SideMenu';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const scale = (size) => Math.round(size * SCREEN_WIDTH / 375);
@@ -365,46 +366,11 @@ export default function NotificationsScreen() {
         </View>
       </ScrollView>
 
-      {/* SIDE MENU */}
-      {menuOpen && (
-        <View style={styles.menuOverlay}>
-          <TouchableOpacity style={styles.menuBackground} activeOpacity={1} onPress={() => setMenuOpen(false)} />
-          <View style={styles.sideMenu}>
-            <View style={styles.menuHeader}>
-              <MaterialIcons name="mosque" size={28} color="#38b000" />
-              <Text style={styles.menuTitle}>Молитвени Времена</Text>
-            </View>
-
-            <View style={styles.menuItems}>
-              <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuOpen(false); router.push('/'); }}>
-                <MaterialIcons name="schedule" size={20} color="#fff" />
-                <Text style={styles.menuText}>Времена за намаз</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuOpen(false); router.push('/Notifications'); }}>
-                <MaterialIcons name="notifications" size={20} color="#fff" />
-                <Text style={styles.menuText}>Известия</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuOpen(false); router.push('/Info'); }}>
-                <MaterialIcons name="info" size={20} color="#fff" />
-                <Text style={styles.menuText}>Информация</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuOpen(false); router.push('/About'); }}>
-                <MaterialIcons name="people" size={20} color="#fff" />
-                <Text style={styles.menuText}>За нас</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.menuFooter}>
-              <TouchableOpacity style={styles.menuCloseBtn} onPress={() => setMenuOpen(false)}>
-                <Text style={styles.menuCloseText}>Затвори</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
+      <SideMenu
+        isVisible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        currentScreen="/Notifications"
+      />
     </ImageBackground>
   );
 }
@@ -603,80 +569,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 22,
     marginTop: 10
-  },
-  // SIDE MENU STYLES
-  menuOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
-    zIndex: 1000
-  },
-  menuBackground: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.55)'
-  },
-  sideMenu: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    height: "100%",
-    width: "75%",
-    backgroundColor: "rgba(0,0,0,0.95)",
-    paddingTop: 50,
-    paddingHorizontal: 0,
-    zIndex: 999
-  },
-  menuHeader: {
-    padding: 24,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  menuTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#38b000',
-    marginLeft: 10
-  },
-  menuItems: {
-    padding: 16,
-    paddingTop: 8
-  },
-  menuBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    marginBottom: 6
-  },
-  menuText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-    marginLeft: 12
-  },
-  menuFooter: {
-    padding: 16,
-    marginTop: 'auto'
-  },
-  menuCloseBtn: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)'
-  },
-  menuCloseText: {
-    fontWeight: '700',
-    color: '#ff6b6b',
-    fontSize: 14
   }
 });

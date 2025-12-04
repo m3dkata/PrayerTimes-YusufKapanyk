@@ -39,7 +39,7 @@ export const scheduleNotifications = async () => {
         const now = new Date();
         let scheduledCount = 0;
 
-        // Schedule for the next 4 days to stay within iOS 64 notification limit
+        // Планиране за следващите 4 дни, за да останете в рамките на лимита за известия на iOS 64
         for (let i = 0; i < 4; i++) {
             const date = new Date(now);
             date.setDate(date.getDate() + i);
@@ -61,13 +61,13 @@ export const scheduleNotifications = async () => {
                 const prayerTime = new Date(date);
                 prayerTime.setHours(hours, minutes, 0, 0);
 
-                // 1. Schedule Reminder Notification
+                // 1. Известие за напомняне за график
                 if (settings.minutesBefore > 0) {
                     const reminderTime = new Date(prayerTime.getTime() - (settings.minutesBefore * 60 * 1000));
                     const diffSeconds = Math.floor((reminderTime.getTime() - now.getTime()) / 1000);
 
                     if (diffSeconds > 0) {
-                        console.log(`Scheduling REMINDER for ${prayerName} at ${reminderTime.toLocaleString()} (in ${diffSeconds}s)`);
+                        console.log(`Планиране на НАПОМНЯНЕ за ${prayerName} at ${reminderTime.toLocaleString()} (in ${diffSeconds}s)`);
                         await Notifications.scheduleNotificationAsync({
                             content: {
                                 title: `🕌 ${getPrayerDisplayName(prayerName, date)}`,
@@ -82,10 +82,10 @@ export const scheduleNotifications = async () => {
                     }
                 }
 
-                // 2. Schedule Exact Time Notification
+                // 2. Известие за точен час на планиране
                 const diffSecondsExact = Math.floor((prayerTime.getTime() - now.getTime()) / 1000);
                 if (diffSecondsExact > 0) {
-                    console.log(`Scheduling EXACT for ${prayerName} at ${prayerTime.toLocaleString()} (in ${diffSecondsExact}s)`);
+                    console.log(`Планиране на ТОЧНО за ${prayerName} в ${prayerTime.toLocaleString()} (in ${diffSecondsExact}s)`);
                     await Notifications.scheduleNotificationAsync({
                         content: {
                             title: `🕌 ${getPrayerDisplayName(prayerName, date)}`,

@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import prayerData from '../../assets/all_prayer_times_2025.json';
+import SideMenu from '../../components/SideMenu';
 
 const getWeekday = (date) => {
   return date.toLocaleDateString("bg-BG", { weekday: "long" });
@@ -108,12 +109,12 @@ export default function Index() {
     setRemainingSec(remaining);
     setElapsedSec(prevTime ? Math.max(Math.floor((now - prevTime)/1000),0) : null);
 
-    // Calculate progress for progress bar
+    // Изчисляване на напредъка за лентата за напредък
     if (nextTime && prevTime) {
-      const totalTimeBetweenPrayers = (nextTime - prevTime) / 1000; // in seconds
-      const elapsedSincePrevPrayer = (now - prevTime) / 1000; // in seconds
+      const totalTimeBetweenPrayers = (nextTime - prevTime) / 1000; // в секунди
+      const elapsedSincePrevPrayer = (now - prevTime) / 1000; // в секунди
       const progress = Math.min(elapsedSincePrevPrayer / totalTimeBetweenPrayers, 1);
-      const widthPercent = Math.max(progress * 100, 2); // At least 2% width
+      const widthPercent = Math.max(progress * 100, 2); // Поне 2% ширина
       setProgressWidth(`${widthPercent}%`);
     } else {
       setProgressWidth('50%');
@@ -184,12 +185,12 @@ export default function Index() {
     return { hhmm:`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}` };
   })() : null;
 
-  // Get progress bar color based on time remaining
+  // Получаване на цвета на лентата за напредък въз основа на оставащото време
   const getProgressBarColor = () => {
     if (!remainingSec) return '#38b000';
-    if (remainingSec <= 300) return '#ff6b6b'; // 5 minutes or less - red
-    if (remainingSec <= 900) return '#ffa726'; // 15 minutes or less - orange
-    return '#38b000'; // More than 15 minutes - green
+    if (remainingSec <= 300) return '#ff6b6b'; // 5 минути или по-малко - червено
+    if (remainingSec <= 900) return '#ffa726'; // 15 минути или по-малко - оранжево
+    return '#38b000'; // Повече от 15 минути - зелено
   };
 
   return (
@@ -200,7 +201,7 @@ export default function Index() {
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header - SMALLER */}
+        {/* Заглавка - ПО-МАЛКА */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.navButton} onPress={() => setMenuOpen(true)}>
             <Entypo name="menu" size={scale(22)} color="#fff" />
@@ -216,7 +217,7 @@ export default function Index() {
           </TouchableOpacity>
         </View>
 
-        {/* Remaining time - SMALLER */}
+        {/* Оставащо време - ПО-МАЛКО */}
         {rem && nextToday && (
           <View style={styles.remainingContainer}>
             <View style={styles.remainingRow}>
@@ -230,7 +231,7 @@ export default function Index() {
           </View>
         )}
 
-        {/* Elapsed prayer - SMALLER with PROGRESS BAR */}
+        {/* Изминала молитва - ПО-МАЛКА с ЛЕНТА ЗА НАПРЕДЪК */}
         {elapsed && prevToday && (
           <View style={styles.elapsedContainer}>
             <View style={styles.elapsedRowWrapper}>
@@ -243,7 +244,7 @@ export default function Index() {
               </View>
             </View>
             
-            {/* Progress Bar - ADDED HERE, VERY SMALL */}
+            {/* Лента за напредък - ДОБАВЕНА ТУК, МНОГО МАЛКА */}
             <View style={styles.elapsedProgressContainer}>
               <View style={styles.elapsedProgressBackground}>
                 <View 
@@ -260,7 +261,7 @@ export default function Index() {
           </View>
         )}
 
-        {/* Date navigation - SMALLER */}
+        {/* Навигация по дата - ПО-МАЛКА */}
         <View style={styles.dateNavigation}>
           <TouchableOpacity onPress={()=>changeDate(-1)} disabled={currentDate<=getMinDate()} style={styles.dateButton}>
             <AntDesign name="left" size={scale(20)} color={currentDate<=getMinDate() ? '#666' : '#fff'} />
@@ -274,7 +275,7 @@ export default function Index() {
           </TouchableOpacity>
         </View>
 
-        {/* Prayer times table - SMALLER */}
+        {/* Таблица с часове за молитва - ПО-МАЛКА */}
         <View style={styles.timesContainer}>
           <View style={styles.tableHeader}>
             <MaterialIcons name="schedule" size={18} color="#38b000" />
@@ -301,10 +302,10 @@ export default function Index() {
           })}
         </View>
 
-        {/* Bottom spacer */}
+        {/* Долен разделител */}
         <View style={styles.bottomSpacer} />
 
-        {/* Modal */}
+        {/* Модал */}
         <Modal visible={modalVisible} transparent animationType="slide">
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
@@ -362,46 +363,11 @@ export default function Index() {
 
       </ScrollView>
 
-      {/* SIDE MENU */}
-      {menuOpen && (
-        <View style={styles.menuOverlay}>
-          <TouchableOpacity style={styles.menuBackground} activeOpacity={1} onPress={() => setMenuOpen(false)} />
-          <View style={styles.sideMenu}>
-            <View style={styles.menuHeader}>
-              <MaterialIcons name="mosque" size={28} color="#38b000" />
-              <Text style={styles.menuTitle}>Молитвени Времена</Text>
-            </View>
-            
-            <View style={styles.menuItems}>
-              <TouchableOpacity style={styles.menuBtn} onPress={()=>{ setMenuOpen(false); router.push('/'); }}>
-                <MaterialIcons name="schedule" size={20} color="#fff" />
-                <Text style={styles.menuText}>Времена за намаз</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity style={styles.menuBtn} onPress={()=>{ setMenuOpen(false); router.push('/Notifications'); }}>
-                <MaterialIcons name="notifications" size={20} color="#fff" />
-                <Text style={styles.menuText}>Известия</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity style={styles.menuBtn} onPress={()=>{ setMenuOpen(false); router.push('/Info'); }}>
-                <MaterialIcons name="info" size={20} color="#fff" />
-                <Text style={styles.menuText}>Информация</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity style={styles.menuBtn} onPress={()=>{ setMenuOpen(false); router.push('/About'); }}>
-                <MaterialIcons name="people" size={20} color="#fff" />
-                <Text style={styles.menuText}>За нас</Text>
-              </TouchableOpacity>
-            </View>
-            
-            <View style={styles.menuFooter}>
-              <TouchableOpacity style={styles.menuCloseBtn} onPress={()=>setMenuOpen(false)}>
-                <Text style={styles.menuCloseText}>Затвори</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
+      <SideMenu
+        isVisible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        currentScreen="/"
+      />
 
     </ImageBackground>
   );
@@ -419,8 +385,8 @@ const styles = StyleSheet.create({
     minHeight: Dimensions.get('window').height - 30
   },
   
-  // Header - SMALLER
-  header: { 
+  // Заглавка - ПО-МАЛКА
+  header: {
     flexDirection:'row', 
     justifyContent:'space-between', 
     alignItems:'center', 
@@ -442,8 +408,8 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
 
-  // Remaining time - SMALLER
-  remainingContainer: { 
+  // Оставащо време - ПО-МАЛКО
+  remainingContainer: {
     alignItems:'center', 
     marginVertical:15,
     marginBottom: 20
@@ -483,7 +449,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 2 
   },
 
-  // Elapsed prayer - SMALLER with PROGRESS BAR
+  // Изминала молитва - ПО-МАЛКА с ЛЕНТА ЗА НАПРЕДЪК
   elapsedContainer: {
     marginHorizontal:16, 
     marginBottom:16, 
@@ -513,7 +479,7 @@ const styles = StyleSheet.create({
   },
   elapsedTimeText: { color:'#fff', fontWeight:'700', fontSize:14 },
   
-  // Elapsed Progress Bar Styles - VERY SMALL
+  // Стилове за лента за напредък на изминала молитва - МНОГО МАЛКА
   elapsedProgressContainer: {
     width: '100%',
     paddingHorizontal: 14,
@@ -531,8 +497,8 @@ const styles = StyleSheet.create({
     transition: 'width 1s ease-in-out, background-color 1s ease-in-out',
   },
 
-  // Date navigation - SMALLER
-  dateNavigation: { 
+  // Навигация по дата - ПО-МАЛКА
+  dateNavigation: {
     flexDirection:'row', 
     justifyContent:'space-between', 
     alignItems:'center', 
@@ -557,8 +523,8 @@ const styles = StyleSheet.create({
   },
   dateText: { fontWeight:'700', color:'#fff' },
 
-  // Prayer times table - SMALLER
-  timesContainer: { 
+  // Таблица с часове за молитва - ПО-МАЛКА
+  timesContainer: {
     backgroundColor:'rgba(255,255,255,0.1)', 
     paddingVertical:14, 
     paddingHorizontal:16, 
@@ -612,13 +578,13 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
 
-  // Bottom spacer to prevent cutoff
+  // Долен разделител за предотвратяване на отрязване
   bottomSpacer: {
     height: 10
   },
 
-  // Modal styles - SMALLER
-  modalOverlay:{ 
+  // Модални стилове - ПО-МАЛКИ
+  modalOverlay:{
     flex:1, 
     backgroundColor:'rgba(0,0,0,0.7)', 
     justifyContent:'center', 
@@ -712,81 +678,5 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.8)',
     fontSize: 11,
     marginTop: 2
-  },
-
-  // Menu styles - SMALLER
-  menuOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
-    zIndex: 1000
-  },
-  menuBackground: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)'
-  },
-  sideMenu: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    height: "100%",
-    width: "75%",
-    backgroundColor: "rgba(0,0,0,0.95)",
-    paddingTop: 50,
-    paddingHorizontal: 0,
-    zIndex: 999
-  },
-  menuHeader: {
-    padding: 24,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.1)',
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  menuTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#38b000',
-    marginLeft: 10
-  },
-  menuItems: {
-    padding: 16,
-    paddingTop: 8
-  },
-  menuBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    marginBottom: 6
-  },
-  menuText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-    marginLeft: 12
-  },
-  menuFooter: {
-    padding: 16,
-    marginTop: 'auto'
-  },
-  menuCloseBtn: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)'
-  },
-  menuCloseText: {
-    fontWeight:'700', 
-    color:'#ff6b6b',
-    fontSize: 14
   }
 });
