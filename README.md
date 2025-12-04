@@ -1,50 +1,87 @@
-# Welcome to your Expo app 👋
+# Времена за Намаз (Prayer Times) by Yusuf Kapanyk
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A comprehensive Islamic prayer times application designed for the Muslim community in Bulgaria. This app provides accurate prayer times, countdown timers, and notifications to help Muslims perform their daily prayers on time.
 
-## Get started
+## 📱 Features
 
-1. Install dependencies
+### 🕌 Prayer Times Display
+- Accurate prayer times for major Bulgarian cities
+- Real-time countdown to the next prayer
+- Visual progress bar showing time elapsed since last prayer
+- Support for all five daily prayers plus Fajr and Isha
 
-   ```bash
-   npm install
-   ```
+### 🏙️ City Selection
+- Extensive list of Bulgarian cities and towns
+- Persistent city selection using local storage
+- Easy city switching with search functionality
 
-2. Start the app
+### 📅 Date Navigation
+- View prayer times for any date in 2025
+- Navigate between dates with intuitive controls
+- Automatic handling of daylight saving time
 
-   ```bash
-    npx expo start
-   ```
+### 🔔 Notifications
+- Prayer time notifications
+- Customizable notification settings
+- Background task support for reliable alerts
 
-In the output, you'll find options to open the app in a
+### ℹ️ Information Section
+- Islamic prayer guidelines
+- Prayer method explanations
+- Educational content about Salah
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 👥 About Section
+- Developer information
+- Contact details
+- Social media links
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🚀 Getting Started
 
-## Get a fresh project
+### Prerequisites
+- Node.js (v18 or later)
+- npm or yarn
+- Expo CLI
 
-When you're ready, run:
+### Installation
 
+1. Clone the repository:
 ```bash
-npm run reset-project
+git clone https://github.com/YusufKapanyk/PrayerTimes-YusufKapanyk.git
+cd PrayerTimes-YusufKapanyk
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Learn more
+3. Start the development server:
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Run on your device:
+   - For Android: `npm run android`
+   - For iOS: `npm run ios`
+   - For web: `npm run web`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🛠️ Tech Stack
 
-## Join the community
+- **Framework**: React Native with Expo
+- **Navigation**: Expo Router (file-based routing)
+- **State Management**: React hooks with AsyncStorage
+- **Styling**: React Native StyleSheet with responsive design
+- **Icons**: Expo Vector Icons
+- **Data**: Local JSON file with prayer times for 2025
+- **Notifications**: Expo Notifications API
+- **Background Tasks**: Expo Task Manager
 
-Join our community of developers creating universal apps.
+## 👨‍💻 Developer
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Yusuf Kapanyk**
+- Email: yusuf.kapanak@pmggd.bg
+- Location: Gotse Delchev, Bulgaria
+- Facebook: [yusuf.kapanak](https://facebook.com/yusuf.kapanak)
+- Instagram: [y_kapanak](https://instagram.com/y_kapanak)
+
+
