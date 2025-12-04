@@ -37,3 +37,4 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+assets/all_prayer_times_2025.json
